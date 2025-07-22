@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Python Code</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Run Python Code from HTML</h1>
+    <button id="runBtn">Run Code</button>
+    <div id="result"></div>
+
+    <script>
+        // Send POST request when the button is clicked
+        $('#runBtn').click(function() {
+            $.ajax({
+                url: '/run_code', // This should match the route defined in Flask
+                type: 'POST',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#result').html('<p>Code ran successfully!</p><pre>' + response.message + '</pre>');
+                    } else {
+                        $('#result').html('<p>Error: ' + response.message + '</p>');
+                    }
+                },
+                error: function(error) {
+                    $('#result').html('<p>Error: ' + error.responseText + '</p>');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
